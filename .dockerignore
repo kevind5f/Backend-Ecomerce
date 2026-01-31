@@ -1,0 +1,9 @@
+node_modules
+.git
+npm-debug.log
+.env
+src/public
+logs
+coverage
+docker-compose.yml
+README.md

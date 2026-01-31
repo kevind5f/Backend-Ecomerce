@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Frontend de prueba - API</title>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+      label { display:block; margin-top:10px }
+      input[type="text"], textarea, select { width:100%; padding:8px; box-sizing:border-box }
+      button { margin-top:10px; padding:8px 12px }
+      pre { background:#f4f4f4; padding:12px; border-radius:4px; max-height:400px; overflow:auto }
+      .row { display:flex; gap:8px }
+      .row > * { flex:1 }
+    </style>
+  </head>
+  <body>
+    <h2>Frontend</h2>
+
+    <label>Endpoint (ruta relativa), ejemplo: <code>/api/providers</code></label>
+    <input id="endpoint" type="text" value="/api/providers" />
+
+    <button id="send">GET</button>
+
+    <h3>Respuesta JSON</h3>
+    <pre id="response" style="display:none"></pre>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
