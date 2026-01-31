@@ -4,8 +4,8 @@ FROM node:18-slim
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production || npm install --production
+COPY package.json ./
+RUN npm install --production
 
 # Copy source
 COPY . .

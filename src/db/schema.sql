@@ -1,4 +1,12 @@
-CREATE TABLE users (
+-- Create enum type used by payments (idempotent)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_status') THEN
+    CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'refunded');
+  END IF;
+END$$;
+
+CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   oauth_provider VARCHAR(50) NOT NULL,
   oauth_id VARCHAR(255) NOT NULL,
@@ -10,7 +18,7 @@ CREATE TABLE users (
   CONSTRAINT uq_email UNIQUE (email)
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
@@ -20,7 +28,7 @@ CREATE TABLE products (
   updated_at TIMESTAMP
 );
 
-CREATE TABLE payments (
+CREATE TABLE IF NOT EXISTS payments (
   id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL,
   total_amount NUMERIC(10,2) NOT NULL CHECK (total_amount > 0),
@@ -35,7 +43,7 @@ CREATE TABLE payments (
     ON DELETE CASCADE
 );
 
-CREATE TABLE payment_products (
+CREATE TABLE IF NOT EXISTS payment_products (
   id SERIAL PRIMARY KEY,
   payment_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL,
@@ -52,7 +60,7 @@ CREATE TABLE payment_products (
     REFERENCES products(id)
 );
 
-CREATE TABLE refunds (
+CREATE TABLE IF NOT EXISTS refunds (
   id SERIAL PRIMARY KEY,
   payment_id INTEGER NOT NULL,
   amount NUMERIC(10,2) NOT NULL CHECK (amount > 0),
@@ -66,7 +74,7 @@ CREATE TABLE refunds (
 );
 
 
-CREATE TABLE providers (
+CREATE TABLE IF NOT EXISTS providers (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE,
